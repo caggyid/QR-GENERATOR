@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CGqr · Generator Code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>CGqr · futuristik</title>
   <!-- qrcode library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- font -->
@@ -19,30 +19,46 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --neon-blue: #00b4ff;
+      --neon-purple: #b400ff;
+      --neon-pink: #ff00b4;
+      --neon-green: #00ffb4;
+      --dark-bg: #0a0c10;
+      --darker-bg: #0a0c10;
+      --card-bg: rgba(18, 22, 30, 0.8);
+      --text-primary: #ffffff;
+      --text-secondary: #8a9bb5;
+      --text-muted: #4a5a72;
+      --error-red: #ff4d6d;
+      --success-green: #00ff00;
+    }
+
     body {
-      background: #0a0c10;
+      background: var(--dark-bg);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: 'Inter', sans-serif;
-      padding: 1.5rem;
+      padding: 0.75rem;
       position: relative;
       overflow-x: hidden;
     }
 
-    /* Animated background gradient */
+    /* Animated background - dioptimalkan untuk mobile */
     body::before {
       content: '';
-      position: absolute;
+      position: fixed;
       top: -50%;
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle at 30% 50%, rgba(0, 180, 255, 0.15) 0%, transparent 50%),
-                  radial-gradient(circle at 70% 50%, rgba(180, 0, 255, 0.15) 0%, transparent 50%);
+      background: radial-gradient(circle at 30% 50%, rgba(0, 180, 255, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(180, 0, 255, 0.1) 0%, transparent 50%);
       animation: rotate 30s linear infinite;
       z-index: 0;
+      pointer-events: none;
     }
 
     @keyframes rotate {
@@ -53,20 +69,36 @@
     .card {
       max-width: 1200px;
       width: 100%;
-      background: rgba(18, 22, 30, 0.8);
+      background: var(--card-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-radius: 3rem;
-      padding: 2.5rem;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
+      border-radius: 2rem;
+      padding: 1.25rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8),
                   0 0 0 1px rgba(255, 255, 255, 0.05),
-                  0 0 30px rgba(0, 180, 255, 0.3);
+                  0 0 30px rgba(0, 180, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.03);
       position: relative;
       z-index: 1;
     }
 
-    /* Neon glow effect */
+    /* Tablet */
+    @media (min-width: 640px) {
+      .card {
+        padding: 1.5rem;
+        border-radius: 2.5rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .card {
+        padding: 2.5rem;
+        border-radius: 3rem;
+      }
+    }
+
+    /* Neon border effect - dioptimalkan */
     .card::after {
       content: '';
       position: absolute;
@@ -74,54 +106,88 @@
       left: 0;
       right: 0;
       bottom: 0;
-      border-radius: 3rem;
+      border-radius: inherit;
       padding: 2px;
-      background: linear-gradient(45deg, #00b4ff, #b400ff, #ff00b4, #00ffb4);
+      background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-green));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.3;
       animation: borderGlow 4s linear infinite;
     }
 
     @keyframes borderGlow {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 0.8; }
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
     }
 
     h1 {
       font-weight: 700;
-      font-size: 2.8rem;
+      font-size: 1.8rem;
       letter-spacing: -0.02em;
       background: linear-gradient(135deg, #fff, #a0b0ff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 2rem;
+      margin-bottom: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
-      position: relative;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      h1 {
+        font-size: 2.2rem;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      h1 {
+        font-size: 2.8rem;
+        margin-bottom: 2rem;
+      }
     }
 
     h1 span {
-      background: linear-gradient(135deg, #00b4ff, #b400ff);
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
       color: white;
-      font-size: 1rem;
-      padding: 0.3rem 1.2rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
       border-radius: 60px;
       -webkit-text-fill-color: white;
       font-weight: 500;
       letter-spacing: 0.02em;
-      box-shadow: 0 0 20px rgba(0, 180, 255, 0.5);
+      box-shadow: 0 0 15px rgba(0, 180, 255, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      h1 span {
+        font-size: 0.9rem;
+        padding: 0.3rem 1.2rem;
+      }
     }
 
     .grid-container {
-      display: grid;
-      grid-template-columns: 1.2fr 0.9fr;
-      gap: 2rem;
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1.2fr 0.9fr;
+        gap: 2rem;
+      }
     }
 
     /* Control panel */
@@ -129,76 +195,152 @@
       background: rgba(12, 16, 24, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-radius: 2.5rem;
-      padding: 2rem;
+      border-radius: 1.5rem;
+      padding: 1.25rem;
       border: 1px solid rgba(255, 255, 255, 0.03);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
                   inset 0 1px 1px rgba(255, 255, 255, 0.05);
     }
 
+    /* Tablet */
+    @media (min-width: 640px) {
+      .control-panel {
+        padding: 1.5rem;
+        border-radius: 2rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .control-panel {
+        padding: 2rem;
+        border-radius: 2.5rem;
+      }
+    }
+
     .input-group {
-      margin-bottom: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .input-group {
+        margin-bottom: 2rem;
+      }
     }
 
     label {
-      font-size: 0.85rem;
+      font-size: 0.7rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #8a9bb5;
+      color: var(--text-secondary);
       display: block;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      label {
+        font-size: 0.8rem;
+        margin-bottom: 0.6rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      label {
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+      }
     }
 
     .url-field {
       display: flex;
-      gap: 0.8rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0.5rem;
       background: rgba(0, 0, 0, 0.3);
-      border-radius: 3rem;
-      padding: 0.3rem 0.3rem 0.3rem 1.8rem;
+      border-radius: 1.2rem;
+      padding: 0.5rem;
       border: 1px solid rgba(255, 255, 255, 0.05);
       transition: all 0.3s ease;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
 
+    /* Tablet */
+    @media (min-width: 480px) {
+      .url-field {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.3rem 0.3rem 0.3rem 1.5rem;
+        border-radius: 3rem;
+      }
+    }
+
     .url-field:focus-within {
-      border-color: #00b4ff;
-      box-shadow: 0 0 0 3px rgba(0, 180, 255, 0.2),
-                  0 5px 15px rgba(0, 0, 0, 0.3);
+      border-color: var(--neon-blue);
+      box-shadow: 0 0 0 3px rgba(0, 180, 255, 0.2);
     }
 
     .url-field input {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 1rem 0;
-      font-size: 1rem;
+      padding: 0.8rem 0.5rem;
+      font-size: 0.9rem;
       font-family: inherit;
       outline: none;
       color: white;
       font-weight: 400;
+      width: 100%;
+    }
+
+    /* Tablet */
+    @media (min-width: 480px) {
+      .url-field input {
+        padding: 1rem 0;
+        font-size: 1rem;
+      }
     }
 
     .url-field input::placeholder {
-      color: #4a5a72;
+      color: var(--text-muted);
     }
 
     .url-field button {
-      background: linear-gradient(135deg, #00b4ff, #b400ff);
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
       border: none;
       color: white;
       font-weight: 600;
-      padding: 0.9rem 2rem;
-      border-radius: 3rem;
+      padding: 0.8rem 1rem;
+      border-radius: 1.2rem;
       cursor: pointer;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       transition: all 0.3s ease;
       white-space: nowrap;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: 0 5px 15px rgba(0, 180, 255, 0.3);
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      width: 100%;
+    }
+
+    /* Tablet */
+    @media (min-width: 480px) {
+      .url-field button {
+        padding: 0.8rem 1.5rem;
+        border-radius: 3rem;
+        font-size: 0.9rem;
+        width: auto;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .url-field button {
+        padding: 0.9rem 2rem;
+        font-size: 0.95rem;
+      }
     }
 
     .url-field button:hover {
@@ -207,82 +349,178 @@
     }
 
     .error-message {
-      color: #ff4d6d;
-      font-size: 0.9rem;
-      margin-top: 0.8rem;
+      color: var(--error-red);
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
       font-weight: 500;
-      padding-left: 1.2rem;
-      min-height: 1.8rem;
+      padding-left: 0.8rem;
+      min-height: 1.5rem;
       text-shadow: 0 0 10px rgba(255, 77, 109, 0.3);
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .error-message {
+        font-size: 0.85rem;
+        padding-left: 1.2rem;
+        min-height: 1.8rem;
+      }
     }
 
     /* Color pickers */
     .color-row {
       display: flex;
-      gap: 1.5rem;
-      margin-bottom: 2.2rem;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
       flex-wrap: wrap;
     }
 
+    /* Tablet */
+    @media (min-width: 640px) {
+      .color-row {
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .color-row {
+        gap: 1.5rem;
+        margin-bottom: 2.2rem;
+      }
+    }
+
     .color-item {
-      flex: 1 1 160px;
+      flex: 1 1 calc(50% - 0.4rem);
+      min-width: 120px;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .color-item {
+        flex: 1 1 160px;
+      }
     }
 
     .color-item span {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.65rem;
       font-weight: 500;
-      color: #8a9bb5;
-      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.3rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .color-item span {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .color-item span {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+      }
     }
 
     .color-picker-wrap {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
+      gap: 0.5rem;
       background: rgba(0, 0, 0, 0.3);
-      padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+      padding: 0.25rem 0.5rem 0.25rem 0.25rem;
       border-radius: 40px;
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
+    /* Tablet */
+    @media (min-width: 640px) {
+      .color-picker-wrap {
+        gap: 0.7rem;
+        padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+      }
+    }
+
     input[type="color"] {
-      width: 42px;
-      height: 42px;
+      width: 32px;
+      height: 32px;
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 40px;
       cursor: pointer;
       background: none;
       padding: 0;
+      flex-shrink: 0;
     }
 
-    input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 0;
+    /* Tablet */
+    @media (min-width: 640px) {
+      input[type="color"] {
+        width: 38px;
+        height: 38px;
+      }
     }
 
-    input[type="color"]::-webkit-color-swatch {
-      border: none;
-      border-radius: 40px;
+    /* Desktop */
+    @media (min-width: 1024px) {
+      input[type="color"] {
+        width: 42px;
+        height: 42px;
+      }
     }
 
     .color-hex {
       font-family: 'Inter', monospace;
-      font-size: 0.9rem;
+      font-size: 0.7rem;
       color: #a0b0ff;
       font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .color-hex {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .color-hex {
+        font-size: 0.95rem;
+      }
     }
 
     /* Logo section */
     .logo-section {
-      margin: 2.2rem 0 1.8rem;
+      margin: 1.5rem 0 1.2rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .logo-section {
+        margin: 2rem 0 1.5rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .logo-section {
+        margin: 2.2rem 0 1.8rem;
+      }
     }
 
     .logo-header {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
       flex-wrap: wrap;
       justify-content: space-between;
     }
@@ -290,124 +528,233 @@
     .logo-header span {
       font-weight: 600;
       color: white;
-      font-size: 1.1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .logo-header span {
+        font-size: 1rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .logo-header span {
+        font-size: 1.1rem;
+      }
     }
 
     .upload-btn {
       background: rgba(255, 255, 255, 0.03);
       color: white;
       font-weight: 500;
-      padding: 0.8rem 1.6rem;
+      padding: 0.5rem 1rem;
       border-radius: 40px;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       cursor: pointer;
       border: 1px solid rgba(255, 255, 255, 0.1);
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.4rem;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .upload-btn:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: #00b4ff;
-      transform: translateY(-2px);
+    /* Tablet */
+    @media (min-width: 640px) {
+      .upload-btn {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.9rem;
+        gap: 0.6rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .upload-btn {
+        padding: 0.8rem 1.6rem;
+        font-size: 0.95rem;
+      }
     }
 
     .logo-size {
       display: flex;
       align-items: center;
-      gap: 1.2rem;
-      margin-top: 1.5rem;
+      gap: 0.8rem;
+      margin-top: 1rem;
       background: rgba(0, 0, 0, 0.2);
-      padding: 1rem 1.5rem;
+      padding: 0.8rem 1rem;
       border-radius: 50px;
       border: 1px solid rgba(255, 255, 255, 0.03);
+      flex-wrap: wrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .logo-size {
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        flex-wrap: nowrap;
+      }
     }
 
     .logo-size label {
       margin-bottom: 0;
       color: #a0b0ff;
-      font-size: 0.9rem;
+      font-size: 0.75rem;
+      white-space: nowrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .logo-size label {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .logo-size label {
+        font-size: 0.9rem;
+      }
     }
 
     input[type=range] {
       flex: 1;
       height: 6px;
-      background: linear-gradient(90deg, #00b4ff, #b400ff);
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
       border-radius: 10px;
       -webkit-appearance: none;
+      min-width: 120px;
     }
 
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       background: white;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid #00b4ff;
-      box-shadow: 0 0 15px #00b4ff;
+      border: 2px solid var(--neon-blue);
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      input[type=range]::-webkit-slider-thumb {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      input[type=range]::-webkit-slider-thumb {
+        width: 22px;
+        height: 22px;
+      }
     }
 
     #logoSizeValue {
-      color: #00b4ff;
+      color: var(--neon-blue);
       font-weight: 600;
-      min-width: 45px;
+      min-width: 40px;
+      font-size: 0.8rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      #logoSizeValue {
+        font-size: 0.9rem;
+        min-width: 45px;
+      }
     }
 
     .logo-hint {
-      font-size: 0.9rem;
+      font-size: 0.75rem;
       color: #6d7f9f;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 30px;
-      padding: 0.5rem 1.5rem;
+      padding: 0.4rem 1rem;
       margin: 0.5rem 0 0;
       border: 1px solid rgba(255, 255, 255, 0.03);
       display: inline-block;
+      width: auto;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .logo-hint {
+        font-size: 0.85rem;
+        padding: 0.5rem 1.5rem;
+      }
     }
 
     /* Action buttons */
     .action-row {
       display: flex;
-      gap: 1rem;
-      margin-top: 2.5rem;
+      gap: 0.8rem;
+      margin-top: 1.5rem;
       flex-wrap: wrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .action-row {
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .action-row {
+        margin-top: 2.5rem;
+      }
     }
 
     .btn {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid rgba(255, 255, 255, 0.05);
       color: white;
-      padding: 0.9rem 1.8rem;
+      padding: 0.7rem 1.2rem;
       border-radius: 50px;
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.4rem;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(5px);
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        gap: 0.6rem;
+        flex: 0 1 auto;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .btn {
+        padding: 0.9rem 1.8rem;
+        font-size: 0.95rem;
+      }
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #00b4ff, #b400ff);
+      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
       border: none;
       box-shadow: 0 5px 20px rgba(0, 180, 255, 0.4);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(0, 180, 255, 0.6);
-    }
-
-    .btn:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: #00b4ff;
-      transform: translateY(-2px);
     }
 
     /* Preview panel */
@@ -415,21 +762,37 @@
       background: rgba(12, 16, 24, 0.6);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-radius: 2.5rem;
-      padding: 2rem;
+      border-radius: 1.5rem;
+      padding: 1.25rem;
       border: 1px solid rgba(255, 255, 255, 0.03);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4),
                   inset 0 1px 1px rgba(255, 255, 255, 0.05);
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
+    /* Tablet */
+    @media (min-width: 640px) {
+      .preview-panel {
+        padding: 1.5rem;
+        border-radius: 2rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .preview-panel {
+        padding: 2rem;
+        border-radius: 2.5rem;
+      }
+    }
+
     .preview-title {
       font-weight: 500;
       color: #a0b0ff;
-      margin-bottom: 1.5rem;
-      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-size: 0.7rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       align-self: flex-start;
@@ -438,25 +801,58 @@
       gap: 0.5rem;
     }
 
+    /* Tablet */
+    @media (min-width: 640px) {
+      .preview-title {
+        font-size: 0.85rem;
+        margin-bottom: 1.2rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .preview-title {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+
     .qr-wrapper {
       background: rgba(0, 0, 0, 0.3);
-      padding: 1.5rem;
-      border-radius: 2rem;
+      padding: 1rem;
+      border-radius: 1.5rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
                   inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-      margin: 0.5rem 0 1.5rem;
+      margin: 0.5rem 0 1rem;
       display: flex;
       justify-content: center;
       width: 100%;
-      min-height: 300px;
+      min-height: 220px;
       align-items: center;
       border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .qr-wrapper {
+        padding: 1.2rem;
+        border-radius: 2rem;
+        min-height: 260px;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .qr-wrapper {
+        min-height: 300px;
+      }
     }
 
     #qrcode {
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100%;
     }
 
     #qrcode img {
@@ -465,86 +861,159 @@
       border-radius: 16px;
       display: block;
       box-shadow: 0 0 30px rgba(0, 180, 255, 0.3);
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      #qrcode img {
+        width: 220px;
+        height: 220px;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      #qrcode img {
+        width: 256px;
+        height: 256px;
+      }
     }
 
     #previewStatus {
-      font-size: 0.95rem;
+      font-size: 0.75rem;
       color: #6d7f9f;
       margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      #previewStatus {
+        font-size: 0.85rem;
+        margin-top: 0.8rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      #previewStatus {
+        font-size: 0.95rem;
+        margin-top: 1rem;
+      }
     }
 
     .footer-note {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       text-align: center;
-      color: #4a5a72;
-      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
       letter-spacing: 0.02em;
       border-top: 1px solid rgba(255, 255, 255, 0.03);
-      padding-top: 2rem;
+      padding-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+    }
+
+    /* Tablet */
+    @media (min-width: 640px) {
+      .footer-note {
+        margin-top: 2rem;
+        font-size: 0.8rem;
+        padding-top: 2rem;
+        gap: 0.5rem;
+      }
+    }
+
+    /* Desktop */
+    @media (min-width: 1024px) {
+      .footer-note {
+        margin-top: 2.5rem;
+        font-size: 0.9rem;
+      }
     }
 
     .footer-note i {
-      color: #ff4d6d;
-      margin: 0 0.3rem;
+      color: var(--neon-pink);
     }
 
-    .neon-text {
-      color: #00b4ff;
-      text-shadow: 0 0 10px #00b4ff;
+    /* Touch optimization untuk mobile */
+    @media (max-width: 480px) {
+      button, 
+      .upload-btn,
+      .btn,
+      input[type="range"] {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      input[type="color"] {
+        width: 44px;
+        height: 44px;
+      }
+      
+      .url-field input {
+        font-size: 16px; /* Mencegah zoom on focus di iOS */
+      }
     }
 
-    @media (max-width: 700px) {
+    /* Landscape mode optimization */
+    @media (max-height: 600px) and (orientation: landscape) {
       .grid-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 0.8rem;
       }
-      .card { 
-        padding: 1.5rem; 
+      
+      .qr-wrapper {
+        min-height: 150px;
       }
-      h1 {
-        font-size: 2rem;
+      
+      #qrcode img {
+        width: 120px;
+        height: 120px;
       }
-    }
-
-    /* Glowing effect for active elements */
-    .glow {
-      animation: glowPulse 2s infinite;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 0 20px rgba(0, 180, 255, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(180, 0, 255, 0.5); }
+      
+      .footer-note {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+      }
     }
   </style>
 </head>
 <body>
 <div class="card">
   <h1>
-    CGqr <i class="fas fa-qrcode" style="background: linear-gradient(135deg, #00b4ff, #b400ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-    <span>v1.0</span>
+    CGqr <i class="fa-solid fa-qrcode" style="background: linear-gradient(135deg, #00b4ff, #b400ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+    <span>NEON</span>
   </h1>
 
   <div class="grid-container">
     <div class="control-panel">
       <div class="input-group">
-        <label><i class="fas fa-link" style="margin-right: 0.5rem; color: #00b4ff;"></i> URL / LINKS</label>
+        <label><i class="fa-solid fa-link" style="margin-right: 0.5rem; color: #00b4ff;"></i> URL / TEKS</label>
         <div class="url-field">
-          <input type="url" id="urlInput" placeholder="https://github.com/caggyid/QR-GENERATOR" value="https://example.com">
-          <button id="generateBtn"><i class="fas fa-bolt"></i> GENERATE</button>
+          <input type="url" id="urlInput" placeholder="https://example.com" value="https://example.com">
+          <button id="generateBtn"><i class="fa-solid fa-bolt"></i> GENERATE</button>
         </div>
         <div id="urlError" class="error-message"></div>
       </div>
 
       <div class="color-row">
         <div class="color-item">
-          <span><i class="fas fa-palette" style="margin-right: 0.3rem;"></i> QR WARNA</span>
+          <span><i class="fa-solid fa-palette" style="margin-right: 0.3rem;"></i> QR WARNA</span>
           <div class="color-picker-wrap">
             <input type="color" id="fgColor" value="#00b4ff">
             <span class="color-hex" id="fgHex">#00b4ff</span>
           </div>
         </div>
         <div class="color-item">
-          <span><i class="fas fa-fill-drip" style="margin-right: 0.3rem;"></i> BACKGROUND</span>
+          <span><i class="fa-solid fa-fill-drip" style="margin-right: 0.3rem;"></i> BACKGROUND</span>
           <div class="color-picker-wrap">
             <input type="color" id="bgColor" value="#0a0c10">
             <span class="color-hex" id="bgHex">#0a0c10</span>
@@ -554,46 +1023,46 @@
 
       <div class="logo-section">
         <div class="logo-header">
-          <span><i class="fas fa-cloud-upload-alt" style="color: #b400ff; margin-right: 0.5rem;"></i> Logo Tengah</span>
+          <span><i class="fa-solid fa-cloud-upload-alt" style="color: #b400ff; margin-right: 0.5rem;"></i> Logo Tengah</span>
           <label for="logoUpload" class="upload-btn">
-            <i class="fas fa-image"></i> Pilih Gambar
+            <i class="fa-solid fa-image"></i> Pilih
           </label>
           <input type="file" id="logoUpload" accept="image/*" style="display: none;">
         </div>
         <div class="logo-size" id="logoSizeControl" style="display: none;">
-          <label><i class="fas fa-sliders-h"></i> Ukuran</label>
+          <label><i class="fa-solid fa-sliders"></i> Ukuran</label>
           <input type="range" id="logoSizeSlider" min="10" max="35" value="20" step="1">
           <span id="logoSizeValue">20%</span>
         </div>
         <div class="logo-hint" id="logoHint">
-          <i class="far fa-circle"></i> belum ada logo
+          <i class="fa-regular fa-circle"></i> belum ada logo
         </div>
       </div>
 
       <div class="action-row">
-        <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download"></i> Download PNG</button>
-        <button class="btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
+        <button class="btn btn-primary" id="downloadBtn"><i class="fa-solid fa-download"></i> Download</button>
+        <button class="btn" id="resetBtn"><i class="fa-solid fa-undo-alt"></i> Reset</button>
       </div>
-      <p style="font-size:0.8rem; color:#4a5a72; margin-top:1.5rem; display: flex; align-items: center; gap: 0.5rem;">
-        <i class="fas fa-shield-alt" style="color: #00b4ff;"></i> Error correction H · Logo aman 100% scan
+      <p style="font-size:0.7rem; color:#4a5a72; margin-top:1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <i class="fa-solid fa-shield" style="color: #00b4ff;"></i> Error correction H · Logo aman 100%
       </p>
     </div>
 
     <div class="preview-panel">
       <div class="preview-title">
-        <i class="fas fa-eye" style="color: #b400ff;"></i> LIVE PREVIEW
-        <i class="fas fa-circle" style="color: #00ff00; font-size: 0.5rem; margin-left: 0.5rem; animation: glowPulse 1s infinite;"></i>
+        <i class="fa-solid fa-eye" style="color: #b400ff;"></i> LIVE PREVIEW
+        <i class="fa-solid fa-circle" style="color: #00ff00; font-size: 0.4rem; margin-left: 0.3rem; animation: glowPulse 1s infinite;"></i>
       </div>
       <div class="qr-wrapper" id="qrWrapper">
         <div id="qrcode"></div>
       </div>
-      <span id="previewStatus"><i class="fas fa-spinner fa-pulse"></i> siap generate...</span>
+      <span id="previewStatus"><i class="fa-solid fa-spinner fa-pulse"></i> siap generate...</span>
     </div>
   </div>
   
   <div class="footer-note">
-    <i class="fas fa-crown" style="color: #ffd700;"></i> QR GENERATOR · 100% CLIENT SIDE 
-    <i class="fas fa-bolt" style="color: #00b4ff; margin-left: 0.5rem;"></i>
+    <i class="fa-solid fa-crown" style="color: #ffd700;"></i> CGqr · 100% CLIENT SIDE 
+    <i class="fa-solid fa-bolt" style="color: #00b4ff;"></i>
   </div>
 </div>
 
@@ -674,20 +1143,20 @@
       if (!url) {
         urlError.textContent = '⚠️ MASUKKAN URL';
         qrcodeDiv.innerHTML = '';
-        previewStatus.innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #ff4d6d;"></i> masukkan URL';
+        previewStatus.innerHTML = '<i class="fa-solid fa-exclamation-triangle" style="color: #ff4d6d;"></i> masukkan URL';
         return;
       }
       
       if (!isValidUrl(url)) {
         urlError.textContent = '❌ URL TIDAK VALID';
         qrcodeDiv.innerHTML = '';
-        previewStatus.innerHTML = '<i class="fas fa-times-circle" style="color: #ff4d6d;"></i> URL tidak valid';
+        previewStatus.innerHTML = '<i class="fa-solid fa-times-circle" style="color: #ff4d6d;"></i> URL tidak valid';
         return;
       }
       
       urlError.textContent = '';
       qrcodeDiv.innerHTML = '';
-      previewStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> generating...';
+      previewStatus.innerHTML = '<i class="fa-solid fa-spinner fa-pulse"></i> generating...';
       
       try {
         new QRCode(qrcodeDiv, {
@@ -708,13 +1177,13 @@
             qrImage.src = mergedImage.src;
           }
           
-          previewStatus.innerHTML = '<i class="fas fa-check-circle" style="color: #00ff00;"></i> QR SIAP · siap discan';
+          previewStatus.innerHTML = '<i class="fa-solid fa-check-circle" style="color: #00ff00;"></i> QR SIAP';
         }, 100);
         
       } catch (err) {
         console.error('QR Error:', err);
         urlError.textContent = 'GAGAL MEMBUAT QR';
-        previewStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #ff4d6d;"></i> error';
+        previewStatus.innerHTML = '<i class="fa-solid fa-exclamation-circle" style="color: #ff4d6d;"></i> error';
       }
     }
 
@@ -734,7 +1203,7 @@
         const img = new Image();
         img.onload = () => {
           currentLogo = img;
-          logoHint.innerHTML = `<i class="fas fa-check-circle" style="color: #00ff00;"></i> logo: ${file.name.substring(0,15)}${file.name.length>15?'…':''}`;
+          logoHint.innerHTML = `<i class="fa-solid fa-check-circle" style="color: #00ff00;"></i> logo: ${file.name.substring(0,12)}${file.name.length>12?'…':''}`;
           logoSizeControl.style.display = 'flex';
           generateQR();
         };
@@ -774,7 +1243,7 @@
       
       currentLogo = null;
       logoUpload.value = '';
-      logoHint.innerHTML = '<i class="far fa-circle"></i> belum ada logo';
+      logoHint.innerHTML = '<i class="fa-regular fa-circle"></i> belum ada logo';
       logoSizeControl.style.display = 'none';
       logoSizeSlider.value = 20;
       logoScale = 0.2;
