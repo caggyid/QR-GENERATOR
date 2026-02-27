@@ -3,13 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CGqr · generator modern</title>
+  <title>CGqr · Generator Code</title>
   <!-- qrcode library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -18,43 +20,101 @@
     }
 
     body {
-      background: linear-gradient(135deg, #f8faff 0%, #f0f3fd 100%);
+      background: #0a0c10;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Inter', system-ui, sans-serif;
-      padding: 1rem;
+      font-family: 'Inter', sans-serif;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background gradient */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(0, 180, 255, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 50%, rgba(180, 0, 255, 0.15) 0%, transparent 50%);
+      animation: rotate 30s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     .card {
-      max-width: 1100px;
+      max-width: 1200px;
       width: 100%;
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 2.5rem;
-      padding: 2rem 2rem 2.5rem;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.08);
-      border: 1px solid rgba(255,255,255,0.5);
+      background: rgba(18, 22, 30, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 3rem;
+      padding: 2.5rem;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
+                  0 0 0 1px rgba(255, 255, 255, 0.05),
+                  0 0 30px rgba(0, 180, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Neon glow effect */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 3rem;
+      padding: 2px;
+      background: linear-gradient(45deg, #00b4ff, #b400ff, #ff00b4, #00ffb4);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0.5;
+      animation: borderGlow 4s linear infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 0.8; }
     }
 
     h1 {
-      font-weight: 600;
-      font-size: 2.2rem;
+      font-weight: 700;
+      font-size: 2.8rem;
       letter-spacing: -0.02em;
-      color: #0b1741;
+      background: linear-gradient(135deg, #fff, #a0b0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      margin-bottom: 1.5rem;
+      gap: 1rem;
+      position: relative;
     }
+
     h1 span {
-      background: #1b2b6e;
+      background: linear-gradient(135deg, #00b4ff, #b400ff);
       color: white;
-      font-size: 0.9rem;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      margin-left: 0.75rem;
+      font-size: 1rem;
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      -webkit-text-fill-color: white;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      box-shadow: 0 0 20px rgba(0, 180, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .grid-container {
@@ -64,39 +124,50 @@
       align-items: start;
     }
 
+    /* Control panel */
     .control-panel {
-      background: white;
-      border-radius: 2rem;
-      padding: 1.8rem 1.5rem;
-      box-shadow: 0 15px 30px rgba(0,10,30,0.05);
-      border: 1px solid rgba(0,0,0,0.02);
+      background: rgba(12, 16, 24, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 2.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.05);
     }
 
     .input-group {
-      margin-bottom: 2rem;
+      margin-bottom: 2.2rem;
     }
+
     label {
       font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      color: #52658f;
+      letter-spacing: 0.1em;
+      color: #8a9bb5;
       display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.8rem;
     }
+
     .url-field {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.8rem;
       align-items: center;
-      background: #f2f5fc;
-      border-radius: 2rem;
-      padding: 0.2rem 0.2rem 0.2rem 1.5rem;
-      border: 1px solid #e2eafc;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 3rem;
+      padding: 0.3rem 0.3rem 0.3rem 1.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
+
     .url-field:focus-within {
-      border-color: #3b4e9e;
-      box-shadow: 0 0 0 4px rgba(48, 86, 255, 0.1);
+      border-color: #00b4ff;
+      box-shadow: 0 0 0 3px rgba(0, 180, 255, 0.2),
+                  0 5px 15px rgba(0, 0, 0, 0.3);
     }
+
     .url-field input {
       flex: 1;
       border: none;
@@ -105,77 +176,109 @@
       font-size: 1rem;
       font-family: inherit;
       outline: none;
-      color: #121f3f;
+      color: white;
+      font-weight: 400;
     }
+
+    .url-field input::placeholder {
+      color: #4a5a72;
+    }
+
     .url-field button {
-      background: #1c2b5e;
+      background: linear-gradient(135deg, #00b4ff, #b400ff);
       border: none;
       color: white;
-      font-weight: 500;
-      padding: 0.8rem 1.8rem;
-      border-radius: 2rem;
+      font-weight: 600;
+      padding: 0.9rem 2rem;
+      border-radius: 3rem;
       cursor: pointer;
       font-size: 0.95rem;
-      transition: 0.15s;
+      transition: all 0.3s ease;
       white-space: nowrap;
-      border: 1px solid #ffffff30;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 180, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
+
     .url-field button:hover {
-      background: #233779;
-      transform: scale(1.02);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 180, 255, 0.5);
     }
 
     .error-message {
-      color: #d43b3b;
+      color: #ff4d6d;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 0.8rem;
       font-weight: 500;
-      padding-left: 1rem;
+      padding-left: 1.2rem;
       min-height: 1.8rem;
+      text-shadow: 0 0 10px rgba(255, 77, 109, 0.3);
     }
 
+    /* Color pickers */
     .color-row {
       display: flex;
       gap: 1.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.2rem;
       flex-wrap: wrap;
     }
+
     .color-item {
       flex: 1 1 160px;
     }
+
     .color-item span {
       display: block;
       font-size: 0.8rem;
       font-weight: 500;
-      color: #2d3d6b;
-      margin-bottom: 0.3rem;
+      color: #8a9bb5;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
+
     .color-picker-wrap {
       display: flex;
       align-items: center;
-      gap: 0.7rem;
-      background: #f2f5fc;
+      gap: 0.8rem;
+      background: rgba(0, 0, 0, 0.3);
       padding: 0.4rem 0.9rem 0.4rem 0.4rem;
       border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
+
     input[type="color"] {
-      width: 40px;
-      height: 40px;
-      border: 2px solid white;
+      width: 42px;
+      height: 42px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 40px;
       cursor: pointer;
       background: none;
       padding: 0;
     }
-    .color-hex {
-      font-family: monospace;
-      font-size: 0.95rem;
-      color: #121f3f;
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
     }
 
-    .logo-section {
-      margin: 2rem 0 1.5rem;
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 40px;
     }
+
+    .color-hex {
+      font-family: 'Inter', monospace;
+      font-size: 0.9rem;
+      color: #a0b0ff;
+      font-weight: 500;
+    }
+
+    /* Logo section */
+    .logo-section {
+      margin: 2.2rem 0 1.8rem;
+    }
+
     .logo-header {
       display: flex;
       align-items: center;
@@ -183,140 +286,211 @@
       flex-wrap: wrap;
       justify-content: space-between;
     }
+
+    .logo-header span {
+      font-weight: 600;
+      color: white;
+      font-size: 1.1rem;
+    }
+
     .upload-btn {
-      background: #e9eefe;
-      color: #1b2b6e;
+      background: rgba(255, 255, 255, 0.03);
+      color: white;
       font-weight: 500;
-      padding: 0.7rem 1.4rem;
+      padding: 0.8rem 1.6rem;
       border-radius: 40px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       cursor: pointer;
-      border: 1px dashed #7289c4;
-      transition: 0.1s;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.6rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
+
     .upload-btn:hover {
-      background: #dde4fe;
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #00b4ff;
+      transform: translateY(-2px);
     }
+
     .logo-size {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      margin-top: 1.2rem;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
     }
+
     .logo-size label {
       margin-bottom: 0;
-      text-transform: none;
-      font-weight: 500;
-      color: #1b2b6e;
+      color: #a0b0ff;
+      font-size: 0.9rem;
     }
+
     input[type=range] {
       flex: 1;
       height: 6px;
-      background: #dbe1f0;
+      background: linear-gradient(90deg, #00b4ff, #b400ff);
       border-radius: 10px;
       -webkit-appearance: none;
     }
+
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      background: #1c2b5e;
+      width: 22px;
+      height: 22px;
+      background: white;
       border-radius: 50%;
       cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border: 2px solid #00b4ff;
+      box-shadow: 0 0 15px #00b4ff;
     }
 
+    #logoSizeValue {
+      color: #00b4ff;
+      font-weight: 600;
+      min-width: 45px;
+    }
+
+    .logo-hint {
+      font-size: 0.9rem;
+      color: #6d7f9f;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 30px;
+      padding: 0.5rem 1.5rem;
+      margin: 0.5rem 0 0;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      display: inline-block;
+    }
+
+    /* Action buttons */
     .action-row {
       display: flex;
-      gap: 0.8rem;
+      gap: 1rem;
       margin-top: 2.5rem;
       flex-wrap: wrap;
     }
+
     .btn {
-      background: white;
-      border: 1px solid #c9d4ec;
-      color: #1b2b6e;
-      padding: 0.8rem 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 0.9rem 1.8rem;
       border-radius: 50px;
       font-weight: 500;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.3s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+      gap: 0.6rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
     }
+
     .btn-primary {
-      background: #1b2b6e;
-      border-color: #1b2b6e;
-      color: white;
-      box-shadow: 0 8px 18px rgba(20, 40, 100, 0.25);
+      background: linear-gradient(135deg, #00b4ff, #b400ff);
+      border: none;
+      box-shadow: 0 5px 20px rgba(0, 180, 255, 0.4);
     }
+
     .btn-primary:hover {
-      background: #233e8a;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 180, 255, 0.6);
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #00b4ff;
       transform: translateY(-2px);
     }
 
+    /* Preview panel */
     .preview-panel {
-      background: white;
-      border-radius: 2rem;
-      padding: 1.8rem;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+      background: rgba(12, 16, 24, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 2.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+                  inset 0 1px 1px rgba(255, 255, 255, 0.05);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(0,0,0,0.02);
     }
+
     .preview-title {
       font-weight: 500;
-      color: #7789b4;
-      margin-bottom: 1.2rem;
+      color: #a0b0ff;
+      margin-bottom: 1.5rem;
       font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
+
     .qr-wrapper {
-      background: #fbfdff;
-      padding: 1.2rem;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1.5rem;
       border-radius: 2rem;
-      box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
-      margin: 0.5rem 0 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                  inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      margin: 0.5rem 0 1.5rem;
       display: flex;
       justify-content: center;
       width: 100%;
-      min-height: 280px;
+      min-height: 300px;
       align-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.02);
     }
+
     #qrcode {
       display: flex;
       justify-content: center;
       align-items: center;
-      position: relative;
     }
+
     #qrcode img {
       max-width: 100%;
       height: auto;
       border-radius: 16px;
       display: block;
+      box-shadow: 0 0 30px rgba(0, 180, 255, 0.3);
     }
-    .logo-hint {
-      font-size: 0.85rem;
-      color: #6173a3;
-      background: #f0f5ff;
-      border-radius: 30px;
-      padding: 0.4rem 1.2rem;
-      margin: 0.2rem 0;
+
+    #previewStatus {
+      font-size: 0.95rem;
+      color: #6d7f9f;
+      margin-top: 0.5rem;
     }
+
     .footer-note {
       margin-top: 2rem;
       text-align: center;
-      color: #92a2c1;
-      font-size: 0.85rem;
+      color: #4a5a72;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+      padding-top: 2rem;
+    }
+
+    .footer-note i {
+      color: #ff4d6d;
+      margin: 0 0.3rem;
+    }
+
+    .neon-text {
+      color: #00b4ff;
+      text-shadow: 0 0 10px #00b4ff;
     }
 
     @media (max-width: 700px) {
@@ -324,74 +498,103 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-      .card { padding: 1.5rem; }
+      .card { 
+        padding: 1.5rem; 
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    /* Glowing effect for active elements */
+    .glow {
+      animation: glowPulse 2s infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 180, 255, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(180, 0, 255, 0.5); }
     }
   </style>
 </head>
 <body>
 <div class="card">
-  <h1>CGqr <span>real‑time + logo</span></h1>
+  <h1>
+    CGqr <i class="fas fa-qrcode" style="background: linear-gradient(135deg, #00b4ff, #b400ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+    <span>v1.0</span>
+  </h1>
 
   <div class="grid-container">
     <div class="control-panel">
       <div class="input-group">
-        <label>🔗 URL / teks</label>
+        <label><i class="fas fa-link" style="margin-right: 0.5rem; color: #00b4ff;"></i> URL / LINKS</label>
         <div class="url-field">
-          <input type="url" id="urlInput" placeholder="https://contoh.com" value="https://example.com">
-          <button id="generateBtn">Generate</button>
+          <input type="url" id="urlInput" placeholder="https://github.com/caggyid/QR-GENERATOR" value="https://example.com">
+          <button id="generateBtn"><i class="fas fa-bolt"></i> GENERATE</button>
         </div>
         <div id="urlError" class="error-message"></div>
       </div>
 
       <div class="color-row">
         <div class="color-item">
-          <span>QR warna</span>
+          <span><i class="fas fa-palette" style="margin-right: 0.3rem;"></i> QR WARNA</span>
           <div class="color-picker-wrap">
-            <input type="color" id="fgColor" value="#000000">
-            <span class="color-hex" id="fgHex">#000000</span>
+            <input type="color" id="fgColor" value="#00b4ff">
+            <span class="color-hex" id="fgHex">#00b4ff</span>
           </div>
         </div>
         <div class="color-item">
-          <span>Background</span>
+          <span><i class="fas fa-fill-drip" style="margin-right: 0.3rem;"></i> BACKGROUND</span>
           <div class="color-picker-wrap">
-            <input type="color" id="bgColor" value="#ffffff">
-            <span class="color-hex" id="bgHex">#ffffff</span>
+            <input type="color" id="bgColor" value="#0a0c10">
+            <span class="color-hex" id="bgHex">#0a0c10</span>
           </div>
         </div>
       </div>
 
       <div class="logo-section">
         <div class="logo-header">
-          <span style="font-weight: 600; color:#1b2b6e;">🖼️ Logo tengah</span>
+          <span><i class="fas fa-cloud-upload-alt" style="color: #b400ff; margin-right: 0.5rem;"></i> Logo Tengah</span>
           <label for="logoUpload" class="upload-btn">
-            <span>📁 pilih gambar</span>
+            <i class="fas fa-image"></i> Pilih Gambar
           </label>
           <input type="file" id="logoUpload" accept="image/*" style="display: none;">
         </div>
         <div class="logo-size" id="logoSizeControl" style="display: none;">
-          <label>ukuran logo</label>
+          <label><i class="fas fa-sliders-h"></i> Ukuran</label>
           <input type="range" id="logoSizeSlider" min="10" max="35" value="20" step="1">
           <span id="logoSizeValue">20%</span>
         </div>
-        <div class="logo-hint" id="logoHint">belum ada logo</div>
+        <div class="logo-hint" id="logoHint">
+          <i class="far fa-circle"></i> belum ada logo
+        </div>
       </div>
 
       <div class="action-row">
-        <button class="btn" id="downloadBtn">⬇️ Download PNG</button>
-        <button class="btn" id="resetBtn">↺ Reset</button>
+        <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-download"></i> Download PNG</button>
+        <button class="btn" id="resetBtn"><i class="fas fa-undo-alt"></i> Reset</button>
       </div>
-      <p style="font-size:0.8rem; color:#90a0c5; margin-top:1.5rem;">* logo tidak mengganggu scan (error correction H)</p>
+      <p style="font-size:0.8rem; color:#4a5a72; margin-top:1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i class="fas fa-shield-alt" style="color: #00b4ff;"></i> Error correction H · Logo aman 100% scan
+      </p>
     </div>
 
     <div class="preview-panel">
-      <div class="preview-title">👀 live preview</div>
+      <div class="preview-title">
+        <i class="fas fa-eye" style="color: #b400ff;"></i> LIVE PREVIEW
+        <i class="fas fa-circle" style="color: #00ff00; font-size: 0.5rem; margin-left: 0.5rem; animation: glowPulse 1s infinite;"></i>
+      </div>
       <div class="qr-wrapper" id="qrWrapper">
         <div id="qrcode"></div>
       </div>
-      <span id="previewStatus" style="font-size:0.9rem; color:#3f5283;">QR akan muncul di sini</span>
+      <span id="previewStatus"><i class="fas fa-spinner fa-pulse"></i> siap generate...</span>
     </div>
   </div>
-  <div class="footer-note">⚡ semua di client — realtime + logo</div>
+  
+  <div class="footer-note">
+    <i class="fas fa-crown" style="color: #ffd700;"></i> QR GENERATOR · 100% CLIENT SIDE 
+    <i class="fas fa-bolt" style="color: #00b4ff; margin-left: 0.5rem;"></i>
+  </div>
 </div>
 
 <script>
@@ -416,7 +619,7 @@
 
     // state
     let currentLogo = null;
-    let logoScale = 0.2; // 20% default
+    let logoScale = 0.2;
 
     // update hex labels
     fgColor.addEventListener('input', () => {
@@ -429,7 +632,6 @@
       generateQR();
     });
 
-    // validasi URL
     function isValidUrl(str) {
       if (!str || str.trim() === '') return false;
       try {
@@ -440,7 +642,6 @@
       }
     }
 
-    // fungsi untuk menggabungkan QR dengan logo
     function mergeQRWithLogo(qrImage, logoImg) {
       return new Promise((resolve) => {
         const canvas = document.createElement('canvas');
@@ -448,10 +649,8 @@
         canvas.height = 256;
         const ctx = canvas.getContext('2d');
         
-        // Gambar QR
         ctx.drawImage(qrImage, 0, 0, 256, 256);
         
-        // Gambar logo di tengah
         const maxSize = 256 * logoScale;
         let w = logoImg.naturalWidth;
         let h = logoImg.naturalHeight;
@@ -463,38 +662,34 @@
         
         ctx.drawImage(logoImg, x, y, w, h);
         
-        // Buat image baru dari canvas
         const mergedImage = new Image();
         mergedImage.onload = () => resolve(mergedImage);
         mergedImage.src = canvas.toDataURL('image/png');
       });
     }
 
-    // fungsi untuk generate QR
     async function generateQR() {
       const url = urlInput.value.trim();
       
       if (!url) {
-        urlError.textContent = '⚠️ masukkan URL';
+        urlError.textContent = '⚠️ MASUKKAN URL';
         qrcodeDiv.innerHTML = '';
-        previewStatus.textContent = 'masukkan URL untuk generate';
+        previewStatus.innerHTML = '<i class="fas fa-exclamation-triangle" style="color: #ff4d6d;"></i> masukkan URL';
         return;
       }
       
       if (!isValidUrl(url)) {
-        urlError.textContent = '❌ URL tidak valid';
+        urlError.textContent = '❌ URL TIDAK VALID';
         qrcodeDiv.innerHTML = '';
-        previewStatus.textContent = 'URL tidak valid';
+        previewStatus.innerHTML = '<i class="fas fa-times-circle" style="color: #ff4d6d;"></i> URL tidak valid';
         return;
       }
       
       urlError.textContent = '';
-      
-      // Clear previous QR
       qrcodeDiv.innerHTML = '';
+      previewStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> generating...';
       
       try {
-        // Buat QR baru
         new QRCode(qrcodeDiv, {
           text: url,
           width: 256,
@@ -504,28 +699,25 @@
           correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Tunggu sebentar sampai QR ter-generate
         setTimeout(async () => {
           const qrImage = qrcodeDiv.querySelector('img');
           if (!qrImage) return;
 
-          // Jika ada logo, gabungkan
           if (currentLogo) {
             const mergedImage = await mergeQRWithLogo(qrImage, currentLogo);
-            // Ganti gambar QR dengan yang sudah ada logo
             qrImage.src = mergedImage.src;
           }
           
-          previewStatus.textContent = '✅ QR siap';
+          previewStatus.innerHTML = '<i class="fas fa-check-circle" style="color: #00ff00;"></i> QR SIAP · siap discan';
         }, 100);
         
       } catch (err) {
         console.error('QR Error:', err);
-        urlError.textContent = 'Gagal membuat QR';
+        urlError.textContent = 'GAGAL MEMBUAT QR';
+        previewStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #ff4d6d;"></i> error';
       }
     }
 
-    // event listeners
     urlInput.addEventListener('input', generateQR);
     
     generateBtn.addEventListener('click', (e) => {
@@ -533,54 +725,37 @@
       generateQR();
     });
 
-    // logo upload
     logoUpload.addEventListener('change', function(event) {
       const file = event.target.files[0];
-      if (!file) {
-        console.log('Tidak ada file dipilih');
-        return;
-      }
-
-      console.log('File dipilih:', file.name);
+      if (!file) return;
 
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
-          console.log('Gambar berhasil dimuat:', img.naturalWidth, 'x', img.naturalHeight);
           currentLogo = img;
-          logoHint.innerHTML = `✅ logo: ${file.name.substring(0,15)}${file.name.length>15?'…':''}`;
+          logoHint.innerHTML = `<i class="fas fa-check-circle" style="color: #00ff00;"></i> logo: ${file.name.substring(0,15)}${file.name.length>15?'…':''}`;
           logoSizeControl.style.display = 'flex';
-          
-          // Generate ulang QR dengan logo
           generateQR();
         };
-        img.onerror = (err) => {
-          console.error('Gagal memuat gambar:', err);
-          alert('Gagal memuat gambar. Coba file lain.');
+        img.onerror = () => {
+          alert('GAGAL MEMUAT GAMBAR');
         };
         img.src = e.target.result;
-      };
-      reader.onerror = (err) => {
-        console.error('FileReader error:', err);
       };
       reader.readAsDataURL(file);
     });
 
-    // slider ukuran logo
     logoSizeSlider.addEventListener('input', function() {
       logoScale = this.value / 100;
       logoSizeValue.textContent = this.value + '%';
-      if (currentLogo) {
-        generateQR();
-      }
+      if (currentLogo) generateQR();
     });
 
-    // download button
     downloadBtn.addEventListener('click', function() {
       const qrImage = qrcodeDiv.querySelector('img');
       if (!qrImage || !qrImage.src) {
-        alert('Belum ada QR untuk di-download');
+        alert('BELUM ADA QR CODE');
         return;
       }
       
@@ -590,17 +765,16 @@
       link.click();
     });
 
-    // reset button
     resetBtn.addEventListener('click', function() {
       urlInput.value = 'https://example.com';
-      fgColor.value = '#000000';
-      bgColor.value = '#ffffff';
-      fgHex.textContent = '#000000';
-      bgHex.textContent = '#ffffff';
+      fgColor.value = '#00b4ff';
+      bgColor.value = '#0a0c10';
+      fgHex.textContent = '#00b4ff';
+      bgHex.textContent = '#0a0c10';
       
       currentLogo = null;
       logoUpload.value = '';
-      logoHint.innerHTML = 'belum ada logo';
+      logoHint.innerHTML = '<i class="far fa-circle"></i> belum ada logo';
       logoSizeControl.style.display = 'none';
       logoSizeSlider.value = 20;
       logoScale = 0.2;
@@ -609,7 +783,6 @@
       generateQR();
     });
 
-    // inisialisasi
     generateQR();
   })();
 </script>
